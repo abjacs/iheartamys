@@ -2,7 +2,9 @@ import urllib
 from bs4 import BeautifulSoup
 
 class FlavorBoardScraper(object):
-    def parse(self, url):
+    
+    @staticmethod
+    def parse(url):
         """
         div#body # container
         
@@ -10,42 +12,31 @@ class FlavorBoardScraper(object):
         child ul # flavors
         """
 
+        flavors = {}
+    
         content = urllib.urlopen(url).read()
         soup = BeautifulSoup(content)
-        
+    
         # container
-        container = soup.find("div#body")
-        
+        container = soup.select("div.body")[0]
+    
         # category
         categories = container.find_all("h2")
-        
-        for category in categories:
-            # category name
+    
+        for category_tag in categories:
+            category = category_tag.text
             # flavors
-            continue
+            flavor_ul = category_tag.find_next("ul")
+            flavor_list_items = flavor_ul.find_all("li")
+    
+            # TODO: strip out empty values
+            flavor_list = [ flavor.text for flavor in flavor_list_items ]
+            flavors[category] = flavor_list
+            
+        return flavors
 
 if __name__ == "__main__":
     url = "http://www.amysicecreams.com/burnet-rd-flavor-board/"
     
-    flavors = {}
+    print FlavorBoardScraper.parse(url)
     
-    content = urllib.urlopen(url).read()
-    soup = BeautifulSoup(content)
-    
-    # container
-    container = soup.select("div#body")[0]
-    
-    # category
-    categories = container.find_all("h2")
-    
-    for category_tag in categories:
-        category = category_tag.text
-        # flavors
-        flavor_ul = category_tag.find_next("ul")
-        flavor_list_items = flavor_ul.find_all("li")
-    
-        # TODO: strip out empty values
-        flavor_list = [ flavor.text for flavor in flavor_list_items ]
-        flavors[category] = flavor_list
-        
-        print flavors
