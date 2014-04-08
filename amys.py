@@ -2,6 +2,8 @@ from datetime import datetime
 import urllib
 from bs4 import BeautifulSoup
 from model import location, city, flavorboard
+from scraper import flavorboard as board_scraper
+
 
 class Api(object):
     HOME = "http://www.amysicecreams.com/"
@@ -10,7 +12,11 @@ class Api(object):
     CITIES = [ "http://www.amysicecreams.com/austin-stores/", "http://www.amysicecreams.com/houston/", "http://www.amysicecreams.com/san-antonio/" ]
     
     def __init__(self):
-        flavors = { "ice cream" : [ "mexican vanilla", "cinammon", "chocolate"], "fruit ice" : [ "pineapple" ], "frozen yogurt" : [] }
+        url = "http://www.amysicecreams.com/burnet-rd-flavor-board/"
+        
+        flavors = board_scraper.FlavorBoardScraper.parse(url)
+        
+        #flavors = { "ice cream" : [ "mexican vanilla", "cinammon", "chocolate"], "fruit ice" : [ "pineapple" ], "frozen yogurt" : [] }
         flavor_board = flavorboard.FlavorBoard(datetime.now(), flavors)
         arboretum = location.Location("Arboretum", flavor_board)
         
