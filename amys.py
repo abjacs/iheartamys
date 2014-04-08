@@ -1,13 +1,15 @@
 from datetime import datetime
-import requests
+import urllib
+from bs4 import BeautifulSoup
 from model import location, city, flavorboard
 
 class Api(object):
-    url = "http://www.amysicecreams.com/"
+    HOME = "http://www.amysicecreams.com/"
+    # TODO
+    # hard-coding for now...
+    CITIES = [ "http://www.amysicecreams.com/austin-stores/", "http://www.amysicecreams.com/houston/", "http://www.amysicecreams.com/san-antonio/" ]
     
     def __init__(self):
-        
-        
         flavors = { "ice cream" : [ "mexican vanilla", "cinammon", "chocolate"], "fruit ice" : [ "pineapple" ], "frozen yogurt" : [] }
         flavor_board = flavorboard.FlavorBoard(datetime.now(), flavors)
         arboretum = location.Location("Arboretum", flavor_board)
@@ -16,13 +18,21 @@ class Api(object):
         
         self.cities = { "Austin" : city.City("Austin", locations), "San Antonio" : city.City("San Antonio", []) }
         
+    """
+    def __init(self):
+        # north austin
+        arboretum = location.Location("Arboretum", None, url = "http://www.amysicecreams.com/arboretum")
+        austinville_78750 = location.Location("Austinville 78750", None, url="http://www.amysicecreams.com/78750/")
+        
+        austin_locations = []
+    """
     
     def get_cities(self):
         return self.cities
         
     def get_city(self, city_name):
         return self.cities.get(city_name, None)
-
+        
     
 if __name__ == "__main__":
     print "Dummy API example\n"
@@ -45,8 +55,7 @@ if __name__ == "__main__":
         
             for (category, flavors) in location.flavor_board.flavors.iteritems():
                 print "\t\t%s: %s" % (category, flavors)
-    
-    #print city.as_json()
+
 
 
 #        
