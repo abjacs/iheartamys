@@ -1,36 +1,28 @@
 from datetime import datetime
+import requests
 from model import location, city, flavorboard
 
-
-"""        
-class Flavor(object):
-    def __init__(self, name, category):
-        self.name = name
-        self.category = category
-"""
-        
-
-        
-
-        
 class Api(object):
     url = "http://www.amysicecreams.com/"
     
     def __init__(self):
+        
+        
         flavors = { "ice cream" : [ "mexican vanilla", "cinammon", "chocolate"], "fruit ice" : [ "pineapple" ], "frozen yogurt" : [] }
         flavor_board = flavorboard.FlavorBoard(datetime.now(), flavors)
         arboretum = location.Location("Arboretum", flavor_board)
         
         locations = [ arboretum ]
         
-        self.cities = [ city.City("Austin", locations), city.City("San Antonio", []) ]
+        self.cities = { "Austin" : city.City("Austin", locations), "San Antonio" : city.City("San Antonio", []) }
         
     
     def get_cities(self):
         return self.cities
         
     def get_city(self, city_name):
-        return self.cities.get(city_name, {})
+        return self.cities.get(city_name, None)
+
     
 if __name__ == "__main__":
     print "Dummy API example\n"
@@ -38,9 +30,14 @@ if __name__ == "__main__":
     api = Api()
     
     cities = api.get_cities()
-    city = cities[0]
+    b = api.get_city("asdf")
     
-    for city in cities:
+    print b
+    print
+    
+    city = cities["Austin"]
+    
+    for city in cities.values():
         print city.name
         
         for location in city.locations:
