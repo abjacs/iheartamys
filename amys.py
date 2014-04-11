@@ -11,27 +11,44 @@ class Api(object):
     # hard-coding for now...
     CITIES = [ "http://www.amysicecreams.com/austin-stores/", "http://www.amysicecreams.com/houston/", "http://www.amysicecreams.com/san-antonio/" ]
     
+    CITIES = {
+        "Austin" : { 
+            "Arboretum" : "http://www.amysicecreams.com/burnet-rd-flavor-board-flavor-board/", 
+            "Austinville 78750" : "http://www.amysicecreams.com/78750-flavor-board/", 
+            "Burnet" : "http://www.amysicecreams.com/burnet-flavor-board/", 
+            "6th Street" : "http://www.amysicecreams.com/6th-street-flavor-board/", 
+            "Guad" : "http://www.amysicecreams.com/guad-flavor-board/", 
+            "SoCo" : "http://www.amysicecreams.com/soco-flavor-board/", 
+            "Airport" : "http://www.amysicecreams.com/airport-flavor-board/", 
+            "Austinville 78704" : "http://www.amysicecreams.com/south-austinville-flavor-board/", 
+            "Super South" : "http://www.amysicecreams.com/super-south-flavor-board/", 
+            "The Grove" : "http://www.amysicecreams.com/the-grove-flavor-board/", 
+            "Westgate" : "http://www.amysicecreams.com/westgate-flavor-board/", 
+            "Hill Country Galleria" : "http://www.amysicecreams.com/hill-country-galleria-flavor-board/", 
+            "Mira Vista" : "http://www.amysicecreams.com/mira-vista-flavor-board/" 
+        }, 
+    
+        "San Antonio" : {}, 
+    
+        "Houston" : {}
+    }
+    
     def __init__(self):
-        url = "http://www.amysicecreams.com/burnet-rd-flavor-board/"
+        self.cities = {}
         
-        flavors = board_scraper.FlavorBoardScraper.parse(url)
-        
-        #flavors = { "ice cream" : [ "mexican vanilla", "cinammon", "chocolate"], "fruit ice" : [ "pineapple" ], "frozen yogurt" : [] }
-        flavor_board = flavorboard.FlavorBoard(datetime.now(), flavors)
-        arboretum = location.Location("Arboretum", flavor_board)
-        
-        locations = [ arboretum ]
-        
-        self.cities = { "Austin" : city.City("Austin", locations), "San Antonio" : city.City("San Antonio", []) }
-        
-    """
-    def __init(self):
-        # north austin
-        arboretum = location.Location("Arboretum", None, url = "http://www.amysicecreams.com/arboretum")
-        austinville_78750 = location.Location("Austinville 78750", None, url="http://www.amysicecreams.com/78750/")
-        
-        austin_locations = []
-    """
+        for city_name in Api.CITIES:
+            print "%s" % city_name
+            locations = []
+            
+            for (location_name, flavor_url) in Api.CITIES[city_name].iteritems():
+                flavors = board_scraper.FlavorBoardScraper.parse(flavor_url)
+                
+                # TODO: parse active_date isntead of using now()
+                flavor_board = flavorboard.FlavorBoard(datetime.now(), flavors)
+                curr_location = location.Location(location_name, flavor_board)
+                
+                locations.append(curr_location)
+            self.cities.update({ city_name : city.City(city_name, locations) })
     
     def get_cities(self):
         return self.cities

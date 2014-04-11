@@ -11,7 +11,8 @@ class FlavorBoardScraper(object):
         h2 title # category
         child ul # flavors
         """
-
+        
+        print url
         flavors = {}
     
         content = urllib.urlopen(url).read()
