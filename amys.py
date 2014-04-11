@@ -13,18 +13,18 @@ class Api(object):
     
     CITIES = {
         "Austin" : { 
-            "Arboretum" : "http://www.amysicecreams.com/burnet-rd-flavor-board-flavor-board/", 
-            "Austinville 78750" : "http://www.amysicecreams.com/78750-flavor-board/", 
-            "Burnet" : "http://www.amysicecreams.com/burnet-flavor-board/", 
+            "Arboretum" : "http://www.amysicecreams.com/arboretum-flavor-board/", 
+            "Austinville 78750" : "http://www.amysicecreams.com/austinvill-78750-flavor-board/", 
+            "Burnet" : "http://www.amysicecreams.com/burnet-rd-flavor-board/", 
             "6th Street" : "http://www.amysicecreams.com/6th-street-flavor-board/", 
-            "Guad" : "http://www.amysicecreams.com/guad-flavor-board/", 
+            "Guad" : "http://www.amysicecreams.com/the-guad-flavor-board/",
             "SoCo" : "http://www.amysicecreams.com/soco-flavor-board/", 
             "Airport" : "http://www.amysicecreams.com/airport-flavor-board/", 
             "Austinville 78704" : "http://www.amysicecreams.com/south-austinville-flavor-board/", 
             "Super South" : "http://www.amysicecreams.com/super-south-flavor-board/", 
             "The Grove" : "http://www.amysicecreams.com/the-grove-flavor-board/", 
-            "Westgate" : "http://www.amysicecreams.com/westgate-flavor-board/", 
-            "Hill Country Galleria" : "http://www.amysicecreams.com/hill-country-galleria-flavor-board/", 
+            "Westgate" : "http://www.amysicecreams.com/westgateflavors", 
+            "Hill Country Galleria" : "http://www.amysicecreams.com/hill-country-galleria-flavor-b/", 
             "Mira Vista" : "http://www.amysicecreams.com/mira-vista-flavor-board/" 
         }, 
     
