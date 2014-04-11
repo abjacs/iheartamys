@@ -24,7 +24,8 @@ class Api(object):
             "Super South" : "http://www.amysicecreams.com/super-south-flavor-board/", 
             "The Grove" : "http://www.amysicecreams.com/the-grove-flavor-board/", 
             "Westgate" : "http://www.amysicecreams.com/westgateflavors", 
-            "Hill Country Galleria" : "http://www.amysicecreams.com/hill-country-galleria-flavor-b/", 
+            "Hill Country Galleria" : "http://www.amysicecreams.com/hill-country-galleria-flavor-b/",
+            # TODO; this does not parse...
             "Mira Vista" : "http://www.amysicecreams.com/mira-vista-flavor-board/" 
         }, 
     
