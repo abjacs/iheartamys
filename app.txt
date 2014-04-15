@@ -1,0 +1,26 @@
+=== Ideas ===
+
+
+ == Landing page ==
+Ice cream gif with three scoops thrown up, rotating and landing back on cone
+
+Heading- I scream, you scream, we all scream for ice cream! Never miss your favorite flavor ever again.
+
+Get notified when Amy’s is serving up your favorite flavors.
+
+Pick your poison: ice cream, frozen yogurt, fruit ice
+(icons for each type in middle of circles)
+
+ == Flavor selection page ==
+User sees a very simple grid where each square contains a flavor. This is similar layout to HTML music board.
+
+Allow user to choose up to 3 flavors for alerts either by **scrolling or searching.** If user chooses more than 3, display humorous message about “slowing down”.
+
+User can simply type to filter flavors. Use large search box similar to example Dan showed that one day
+
+Once user makes selection, transparent gray comes over page with two modals:
+1. to the left are three boxes showing the selected flavors
+2. to the right is a box to enter text message for alerts
+(these are centered on page)
+
+At end, a test message is sent to tell user they are signed up for alerts!
