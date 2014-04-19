@@ -40,24 +40,24 @@ class IceCreamFlavorsScraper(object):
 
         content = urllib.urlopen(url).read()
         soup = BeautifulSoup(content)
-
-        # last paginated page
+        
+        # default to first page as last page
+        last_page = 1
+        relative_link = ""
+        
+        # check for pagination
         paginated_links = soup.select("a.paginationPageNumber")
-        last_page_link = paginated_links[-1]
-        last_page_num = last_page_link.text
+        if(len(paginated_links) > 0):        
+            # last paginated page
+            last_page_link = paginated_links[-1]
+            last_page = int(last_page_link.text)
+        
+            # use first link as template
+            # strip off everything after equal sign
+            # ex: /ice-creams/?currentPage=2
+            relative_link = last_page_link.attrs["href"].replace(last_page_link.text, "")
 
-        # use last link as template
-        # strip off everything after equal sign
-        # ex: /ice-creams/?currentPage=2
-        relative_link = last_page_link.attrs["href"].replace(last_page_num, "")
-
-        # cast to int
-        last_page_num = int(last_page_num)
-
-        first_page = int(paginated_links[0].text)
-        last_page = int(last_page_link.text)
-
-        # range(x, y) exposes set [x, y) so + 1 to expose set [x, y]
+        # range(x, y) exposes set [x, y) so + 1 to for y-inclusive set [x, y]
         for i in range(1, last_page + 1):
             url_fragment = relative_link + str(i)
             absolute_url = urlparse.urljoin(url, url_fragment)
@@ -78,8 +78,8 @@ class IceCream(object):
 if __name__ == "__main__":
     urls = [
         "http://www.amysicecreams.com/ice-creams/",
-        "http://www.amysicecreams.com/froyo/",
-        "http://www.amysicecreams.com/fruit-ices/"
+        #"http://www.amysicecreams.com/froyo/",
+        #"http://www.amysicecreams.com/fruit-ices/"
     ]
     
     for url in urls:
