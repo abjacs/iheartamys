@@ -2,6 +2,8 @@
 
 === TODO ===
 
+figure out get_flavors() overload issue
+
 expose home.py web api layer
 	=> errors with python dict => JSON
 
