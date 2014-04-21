@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 # TODO: note- pagination is optional and not *guaranteed* on any page
 #
 
-class IceCreamFlavorsScraper(object):
+class FlavorsScraper(object):
 
     @staticmethod
     def parse_ice_cream(url):
@@ -62,7 +62,7 @@ class IceCreamFlavorsScraper(object):
             url_fragment = relative_link + str(i)
             absolute_url = urlparse.urljoin(url, url_fragment)
             print absolute_url
-            ice_creams_from_page = IceCreamFlavorsScraper.parse_ice_cream(absolute_url)
+            ice_creams_from_page = FlavorsScraper.parse_ice_cream(absolute_url)
             
             ice_creams += ice_creams_from_page
             
@@ -83,4 +83,4 @@ if __name__ == "__main__":
     ]
     
     for url in urls:
-        print IceCreamFlavorsScraper.parse(url)
+        print FlavorsScraper.parse(url)
