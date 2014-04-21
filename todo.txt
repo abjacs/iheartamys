@@ -1,0 +1,11 @@
+
+
+=== TODO ===
+
+expose home.py web api layer
+	=> errors with python dict => JSON
+
+=== Completed ===
+
+(DONE) Parse all Amy’s ice cream flavors
+(DONE) Parse flavors for Austin, TX locations

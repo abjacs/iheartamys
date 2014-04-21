@@ -36,9 +36,9 @@ class Api(object):
     }
     
     FLAVORS = {
-        "Ice Cream" : "http://www.amysicecreams.com/ice-creams/",
-        "Frozen Yogurt" : "http://www.amysicecreams.com/froyo/",
-        "Fruit Ice" : "http://www.amysicecreams.com/fruit-ices/"
+        "ice cream" : "http://www.amysicecreams.com/ice-creams/",
+        "frozen yogurt" : "http://www.amysicecreams.com/froyo/",
+        "fruit ice" : "http://www.amysicecreams.com/fruit-ices/"
     }
     
     def __init__(self):
@@ -72,7 +72,15 @@ class Api(object):
         for (flavor, url) in self.FLAVORS.iteritems():
             flavors[flavor] = flavors_scraper.FlavorScraper.parse(url)
             
-        return flavors    
+        return flavors
+    
+    """
+    def get_flavors(self, category):
+        flavors = {}
+        flavors = self.get_flavors()
+        
+        return flavors.get(category, [])
+    """
     
 if __name__ == "__main__":
     print "Dummy API example\n"
@@ -84,7 +92,6 @@ if __name__ == "__main__":
     
     print b
     print
-    
     
     flavors = api.get_flavors()
     print flavors
