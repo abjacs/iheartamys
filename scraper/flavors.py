@@ -9,6 +9,7 @@ class Flavor(object):
         self.href = absolute_href
 
 class FlavorScraper(object):
+    
     @staticmethod
     def parse(url):
         flavors = []

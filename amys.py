@@ -3,6 +3,7 @@ import urllib
 from bs4 import BeautifulSoup
 from model import location, city, flavorboard
 from scraper import flavorboard as board_scraper
+from scraper import flavors as flavors_scraper
 
 
 class Api(object):
@@ -34,8 +35,15 @@ class Api(object):
         "Houston" : {}
     }
     
+    FLAVORS = {
+        "Ice Cream" : "http://www.amysicecreams.com/ice-creams/",
+        "Frozen Yogurt" : "http://www.amysicecreams.com/froyo/",
+        "Fruit Ice" : "http://www.amysicecreams.com/fruit-ices/"
+    }
+    
     def __init__(self):
         self.cities = {}
+        
         
         for city_name in Api.CITIES:
             print "%s" % city_name
@@ -50,6 +58,7 @@ class Api(object):
                 
                 locations.append(curr_location)
             self.cities.update({ city_name : city.City(city_name, locations) })
+            
     
     def get_cities(self):
         return self.cities
@@ -57,6 +66,13 @@ class Api(object):
     def get_city(self, city_name):
         return self.cities.get(city_name, None)
         
+    def get_flavors(self):
+        flavors = {}
+        
+        for (flavor, url) in self.FLAVORS.iteritems():
+            flavors[flavor] = flavors_scraper.FlavorScraper.parse(url)
+            
+        return flavors    
     
 if __name__ == "__main__":
     print "Dummy API example\n"
@@ -68,6 +84,10 @@ if __name__ == "__main__":
     
     print b
     print
+    
+    
+    flavors = api.get_flavors()
+    print flavors
     
     city = cities["Austin"]
     
