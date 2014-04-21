@@ -7,11 +7,51 @@ from bs4 import BeautifulSoup
 # TODO: note- pagination is optional and not *guaranteed* on any page
 #
 
-class FlavorsScraper(object):
-
+class FlavorScraper(object):
+    
+    """
+    def __init__(self, url):
+        self.url = url
+        
+        self.flavor_page_links = self.__find_flavor_pages(url)
+    """
+    
     @staticmethod
+    def __find_flavor_pages(url):
+        flavor_urls = []
+        
+        content = urllib.urlopen(url).read()
+        soup = BeautifulSoup(content)
+        
+        # MARKUP: <a class="paginationPageNumber"  href="/ice-creams/?currentPage=20" >20</a>        
+        paginated_links = soup.select("a.paginationPageNumber")
+        if(len(paginated_links) > 0):
+            # last paginated page
+            last_page_link = paginated_links[-1]
+            
+            start = int(paginated_links[0].text)
+            end = int(last_page_link.text)
+            
+            # use first link as template
+            # strip off everything after equal sign
+            # ex: /ice-creams/?currentPage=2
+            relative_link = last_page_link.attrs["href"].replace(last_page_link.text, "")
+            
+            # range(x, y) exposes set [x, y) so + 1 to for y-inclusive set [x, y]
+            for i in range(start, end + 1):
+                url_fragment = relative_link + str(i)
+                absolute_url = urlparse.urljoin(url, url_fragment)
+                print absolute_url
+                
+                flavor_urls.append(absolute_url)
+        else:
+            # no pagination
+            flavor_urls = [ url ]
+                
+        return flavor_urls  
+    
     def parse_ice_cream(url):
-        ice_creams = []
+        flavors = []
         
         # a.journal-entry-navigation-current
         # <a class="journal-entry-navigation-current" href="/ice-creams/aztec-chocolate.html">Aztec&nbsp;Chocolate</a>
@@ -26,17 +66,16 @@ class FlavorsScraper(object):
             print (flavor, href)
             ice_cream = IceCream(flavor, href)
             
-            ice_creams.append(ice_cream)
+            flavors.append(ice_cream)
         
-        return ice_creams
+        return flavors
     
-    @staticmethod
     def parse(url):
         """
         <a class="paginationPageNumber"  href="/ice-creams/?currentPage=20" >20</a>
         """
         
-        ice_creams = []
+        flavors = []
 
         content = urllib.urlopen(url).read()
         soup = BeautifulSoup(content)
@@ -47,7 +86,7 @@ class FlavorsScraper(object):
         
         # check for pagination
         paginated_links = soup.select("a.paginationPageNumber")
-        if(len(paginated_links) > 0):        
+        if(len(paginated_links) > 0):    
             # last paginated page
             last_page_link = paginated_links[-1]
             last_page = int(last_page_link.text)
@@ -62,13 +101,15 @@ class FlavorsScraper(object):
             url_fragment = relative_link + str(i)
             absolute_url = urlparse.urljoin(url, url_fragment)
             print absolute_url
-            ice_creams_from_page = FlavorsScraper.parse_ice_cream(absolute_url)
+            flavors_from_page = FlavorScraper.parse_ice_cream(absolute_url)
             
-            ice_creams += ice_creams_from_page
+            flavors += flavors_from_page
             
         # only expose flavors
-        ice_creams = [ice_cream.flavor for ice_cream in ice_creams]
-        return ice_creams
+        flavors = [ice_cream.flavor for ice_cream in flavors]
+        return flavors
+        
+    
 
 class IceCream(object):
     def __init__(self, flavor, absolute_href):
@@ -76,11 +117,15 @@ class IceCream(object):
         self.href = absolute_href
 
 if __name__ == "__main__":
+    flavor_scraper = FlavorScraper()
+    
     urls = [
         "http://www.amysicecreams.com/ice-creams/",
-        #"http://www.amysicecreams.com/froyo/",
-        #"http://www.amysicecreams.com/fruit-ices/"
+        "http://www.amysicecreams.com/froyo/",
+        "http://www.amysicecreams.com/fruit-ices/"
     ]
     
     for url in urls:
-        print FlavorsScraper.parse(url)
+        print url
+        print FlavorScraper.find_flavor_pages(url)
+        print
