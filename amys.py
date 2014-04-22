@@ -43,19 +43,18 @@ class Api(object):
     
     def __init__(self):
         self.cities = {}
-        
-        
+                
         for city_name in Api.CITIES:
             print "%s" % city_name
             locations = []
-            
+        
             for (location_name, flavor_url) in Api.CITIES[city_name].iteritems():
                 flavors = board_scraper.FlavorBoardScraper.parse(flavor_url)
-                
+            
                 # TODO: parse active_date isntead of using now()
                 flavor_board = flavorboard.FlavorBoard(datetime.now(), flavors)
                 curr_location = location.Location(location_name, flavor_board)
-                
+            
                 locations.append(curr_location)
             self.cities.update({ city_name : city.City(city_name, locations) })
             
@@ -66,21 +65,19 @@ class Api(object):
     def get_city(self, city_name):
         return self.cities.get(city_name, None)
         
-    def get_flavors(self):
-        flavors = {}
+    def get_flavors(self, flavors = [ ]):
+        flavors_with_url = {}
         
-        for (flavor, url) in self.FLAVORS.iteritems():
-            flavors[flavor] = flavors_scraper.FlavorScraper.parse(url)
+        # default to self.Flavors
+        if (not flavors):
+            flavors = self.FLAVORS.keys()
+        
+        for flavor in flavors:
+            (flavor, url) = flavor, self.FLAVORS.get(flavor, "")
+            # ternary: a if test else b
+            flavors_with_url[flavor] = ( flavors_scraper.FlavorScraper.parse(url) if url else [] )
             
-        return flavors
-    
-    """
-    def get_flavors(self, category):
-        flavors = {}
-        flavors = self.get_flavors()
-        
-        return flavors.get(category, [])
-    """
+        return flavors_with_url
     
 if __name__ == "__main__":
     print "Dummy API example\n"
