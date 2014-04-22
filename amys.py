@@ -26,7 +26,7 @@ class Api(object):
             "The Grove" : "http://www.amysicecreams.com/the-grove-flavor-board/", 
             "Westgate" : "http://www.amysicecreams.com/westgateflavors", 
             "Hill Country Galleria" : "http://www.amysicecreams.com/hill-country-galleria-flavor-b/",
-            # TODO; this does not parse...
+            # TODO: this does not parse...
             "Mira Vista" : "http://www.amysicecreams.com/mira-vista-flavor-board/" 
         }, 
     
@@ -43,7 +43,8 @@ class Api(object):
     
     def __init__(self):
         self.cities = {}
-                
+        
+        """          
         for city_name in Api.CITIES:
             print "%s" % city_name
             locations = []
@@ -57,10 +58,12 @@ class Api(object):
             
                 locations.append(curr_location)
             self.cities.update({ city_name : city.City(city_name, locations) })
-            
+        """
     
     def get_cities(self):
-        return self.cities
+        cities = sorted(self.CITIES.keys())
+        
+        return cities
         
     def get_city(self, city_name):
         return self.cities.get(city_name, None)
@@ -78,6 +81,10 @@ class Api(object):
             flavors_with_url[flavor] = ( flavors_scraper.FlavorScraper.parse(url) if url else [] )
             
         return flavors_with_url
+        
+    def get_flavors_for_location(self, city, location):
+        city = self.FLAVORS.get(city, {})
+        
     
 if __name__ == "__main__":
     print "Dummy API example\n"

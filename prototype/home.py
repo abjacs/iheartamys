@@ -18,6 +18,13 @@ def home():
     
     return json.dumps(flavors)
 """
+
+@app.route("/cities", methods = [ HTTP.GET ])
+def cities():
+   cities = api.get_cities()
+   cities = json.dumps(cities)
+   
+   return cities 
     
 @app.route("/flavors", methods = [ HTTP.GET ])
 def flavors():
