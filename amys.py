@@ -8,10 +8,7 @@ from scraper import flavors as flavors_scraper
 
 class Api(object):
     HOME = "http://www.amysicecreams.com/"
-    # TODO
-    # hard-coding for now...
-    CITIES = [ "http://www.amysicecreams.com/austin-stores/", "http://www.amysicecreams.com/houston/", "http://www.amysicecreams.com/san-antonio/" ]
-    
+        
     CITIES = {
         "Austin" : { 
             "Arboretum" : "http://www.amysicecreams.com/arboretum-flavor-board/", 
@@ -44,7 +41,7 @@ class Api(object):
     def __init__(self):
         self.cities = {}
         
-        """          
+        #"""          
         for city_name in Api.CITIES:
             print "%s" % city_name
             locations = []
@@ -58,7 +55,7 @@ class Api(object):
             
                 locations.append(curr_location)
             self.cities.update({ city_name : city.City(city_name, locations) })
-        """
+        #"""
     
     def get_cities(self):
         cities = sorted(self.CITIES.keys())
@@ -66,7 +63,7 @@ class Api(object):
         return cities
         
     def get_city(self, city_name):
-        return self.cities.get(city_name, None)
+        return self.cities.get(city_name, {})
         
     def get_flavors(self, flavors = [ ]):
         flavors_with_url = {}
@@ -89,27 +86,20 @@ class Api(object):
 if __name__ == "__main__":
     print "Dummy API example\n"
     
-    api = Api()
+    api = Api()    
     
     cities = api.get_cities()
-    b = api.get_city("asdf")
     
-    print b
-    print
+    city = api.get_city("Austin")
     
-    flavors = api.get_flavors()
-    print flavors
+    # city struture example
+    print city.name
     
-    city = cities["Austin"]
+    for location in city.locations:
+        print "\t" + location.name
     
-    for city in cities.values():
-        print city.name
-        
-        for location in city.locations:
-            print "\t" + location.name
-        
-            for (category, flavors) in location.flavor_board.flavors.iteritems():
-                print "\t\t%s: %s" % (category, flavors)
+        for (category, flavors) in location.flavor_board.flavors.iteritems():
+            print "\t\t%s: %s" % (category, flavors)
 
 
 
